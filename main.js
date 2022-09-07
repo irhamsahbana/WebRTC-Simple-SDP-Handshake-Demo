@@ -2,7 +2,7 @@ let peerConnection = new RTCPeerConnection()
 let localStream;
 let remoteStream;
 
-let init = async () => {
+const init = async () => {
     localStream = await navigator.mediaDevices.getUserMedia({video:true, audio:false})
     remoteStream = new MediaStream()
     document.getElementById('user-1').srcObject = localStream
@@ -19,11 +19,9 @@ let init = async () => {
     };
 }
 
-let createOffer = async () => {
-
-
+const createOffer = async () => {
     peerConnection.onicecandidate = async (event) => {
-        //Event that fires off when a new offer ICE candidate is created
+        //Event yang di trigger ketika sebuah offer ICE candidate terbuat
         if(event.candidate){
             document.getElementById('offer-sdp').value = JSON.stringify(peerConnection.localDescription)
         }
@@ -33,14 +31,13 @@ let createOffer = async () => {
     await peerConnection.setLocalDescription(offer);
 }
 
-let createAnswer = async () => {
-
+const createAnswer = async () => {
     let offer = JSON.parse(document.getElementById('offer-sdp').value)
 
     peerConnection.onicecandidate = async (event) => {
-        //Event that fires off when a new answer ICE candidate is created
+        //Event yang di trigger ketika sebuah answer ICE candidate terbuat
         if(event.candidate){
-            console.log('Adding answer candidate...:', event.candidate)
+            console.log('Menambahkan answer candidate...:', event.candidate)
             document.getElementById('answer-sdp').value = JSON.stringify(peerConnection.localDescription)
         }
     };
@@ -48,13 +45,15 @@ let createAnswer = async () => {
     await peerConnection.setRemoteDescription(offer);
 
     let answer = await peerConnection.createAnswer();
-    await peerConnection.setLocalDescription(answer); 
+    await peerConnection.setLocalDescription(answer);
 }
 
-let addAnswer = async () => {
-    console.log('Add answer triggerd')
+const addAnswer = async () => {
+    console.log('Menambahkan answer triggered')
+
     let answer = JSON.parse(document.getElementById('answer-sdp').value)
     console.log('answer:', answer)
+
     if (!peerConnection.currentRemoteDescription){
         peerConnection.setRemoteDescription(answer);
     }
