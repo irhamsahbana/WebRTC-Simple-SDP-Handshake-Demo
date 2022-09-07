@@ -10,7 +10,7 @@ body{
     width: 100%;
     padding: 10px;
   }
-  
+
   video {
     width: 100%;
     border:2px solid greenyellow;
@@ -22,7 +22,7 @@ body{
     height: 50px;
     width: 100%;
   }
-  
+
   .step{
     background-color: beige;
     padding: 10px;
